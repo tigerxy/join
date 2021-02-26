@@ -37,9 +37,12 @@ class Controller extends BlockController
         $uId = $user->getUserID();
 
         $joined = $this->selectDb(["bID" => $this->bID]);
-        $joinedIds = array_column($joined, "uID");
-        $hasJoined = in_array($uId, $joinedIds);
-        $this->set('hasJoined', $hasJoined);
+        $currentUserJoinedEntry = array_reduce($joined, function ($match, $join) {
+            return $join['uID'] == $match['uID'] ? $join : $match;
+        }, ['uID' => $uId, 'empty' => true]);
+        $currentUserHasJoined = array_key_exists('empty', $currentUserJoinedEntry);
+        $this->set('currentUserHasJoined', $currentUserHasJoined);
+        $this->set('currentUserComment', $currentUserHasJoined ? $currentUserJoinedEntry['comment'] : '');
         $joined = array_map(function ($join) {
             $user = new User();
             $userInfo = $user->getByUserID($join["uID"])->getUserInfoObject();

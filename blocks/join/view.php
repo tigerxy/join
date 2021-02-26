@@ -39,7 +39,7 @@ function showComment(e) {
 </script>
 
 <?php if ($isRegistered) { ?>
-<?php if ($hasJoined) { ?>
+<?php if ($currentUserHasJoined) { ?>
 <a class="btn btn-danger" href="<?php echo $view->action(
                                             'disjoin',
                                             Core::make('token')->generate('join')
@@ -54,7 +54,7 @@ function showComment(e) {
                                 Core::make('token')->generate('join')
                             ) ?>" method="post">
         <textarea class="form-control" rows="3" name="comment"
-            placeholder="Kommentar"><?= $join["comment"] ?></textarea>
+            placeholder="Kommentar"><?= $currentUserComment ?></textarea>
         <br />
         <button type="submit" class="btn btn-primary">Speichern</button>
     </form>
