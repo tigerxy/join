@@ -40,7 +40,7 @@ class Controller extends BlockController
         $currentUserJoinedEntry = array_reduce($joined, function ($match, $join) {
             return $join['uID'] == $match['uID'] ? $join : $match;
         }, ['uID' => $uId, 'empty' => true]);
-        $currentUserHasJoined = array_key_exists('empty', $currentUserJoinedEntry);
+        $currentUserHasJoined = !array_key_exists('empty', $currentUserJoinedEntry);
         $this->set('currentUserHasJoined', $currentUserHasJoined);
         $this->set('currentUserComment', $currentUserHasJoined ? $currentUserJoinedEntry['comment'] : '');
         $joined = array_map(function ($join) {
